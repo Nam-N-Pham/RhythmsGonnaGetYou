@@ -133,8 +133,54 @@ namespace RhythmsGonnaGetYou
                         }
                         break;
                     case "update albums":
+                        Console.WriteLine("Enter the name of the band you would like to add an album for.");
+                        string bandNameToAddAlbum = Console.ReadLine().ToLower();
+                        int bandId;
+                        Band bandToAddAlbum = context.Bands.FirstOrDefault(band => band.Name.ToLower() == bandNameToAddAlbum);
+                        if (bandToAddAlbum != null)
+                        {
+                            bandId = bandToAddAlbum.Id;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Band does not exist.");
+                            break;
+                        }
+
+                        Console.Write("Title: ");
+                        string albumTitle = Console.ReadLine().ToLower();
+                        Console.Write("Explicit (Y/N): ");
+                        string explicitStatus = Console.ReadLine().ToLower();
+                        bool isExplicit;
+                        if (explicitStatus == "y")
+                            isExplicit = true;
+                        else if (explicitStatus == "n")
+                            isExplicit = false;
+                        else
+                        {
+                            Console.WriteLine("Invalid explicit status.");
+                            break;
+                        }
+                        Console.Write("Release date (YYYY-MM-DD): ");
+                        DateTime releaseDate = DateTime.Parse(Console.ReadLine());
+
+                        Album albumToAdd = new Album()
+                        {
+                            Title = albumTitle,
+                            IsExplicit = isExplicit,
+                            ReleaseDate = releaseDate,
+                            BandId = bandId
+                        };
+                        context.Albums.Add(albumToAdd);
+                        context.SaveChanges();
+
                         break;
                     case "view albums":
+                        var orderedByReleaseDateAlbums = context.Albums.OrderBy(album => album.ReleaseDate);
+                        foreach (Album album in orderedByReleaseDateAlbums)
+                        {
+                            Console.WriteLine(album.Title);
+                        }
                         break;
                     case "add song":
                         break;
