@@ -71,17 +71,34 @@ namespace RhythmsGonnaGetYou
                                 context.SaveChanges();
                                 break;
                             case "sign":
+                                Console.WriteLine("What band would you like to sign?");
+                                string signName = Console.ReadLine().ToLower();
+
+                                Band bandToSign = context.Bands.FirstOrDefault(band => band.Name.ToLower() == signName);
+                                if (bandToSign != null)
+                                {
+                                    bandToSign.IsSigned = true;
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Band not found.");
+                                }
 
                                 break;
                             case "unsign":
                                 Console.WriteLine("What band would you like to unsign?");
                                 string unsignName = Console.ReadLine().ToLower();
 
-                                var existingBand = context.Bands.FirstOrDefault(band => band.Name.ToLower() == unsignName);
-                                if (existingBand != null)
+                                Band bandToUnsign = context.Bands.FirstOrDefault(band => band.Name.ToLower() == unsignName);
+                                if (bandToUnsign != null)
                                 {
-                                    existingBand.IsSigned = false;
+                                    bandToUnsign.IsSigned = false;
                                     context.SaveChanges();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Band not found.");
                                 }
 
                                 break;
