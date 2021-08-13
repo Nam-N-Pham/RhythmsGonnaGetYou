@@ -23,9 +23,9 @@ namespace RhythmsGonnaGetYou
                         break;
                     case "update bands":
                         Console.WriteLine("How would you like to update? Add, Sign, or Unsign?");
-                        string updateBandChoice = Console.ReadLine().ToLower();
+                        string updateBandsChoice = Console.ReadLine().ToLower();
 
-                        switch (updateBandChoice)
+                        switch (updateBandsChoice)
                         {
                             case "add":
                                 Console.Write("Name: ");
@@ -105,6 +105,32 @@ namespace RhythmsGonnaGetYou
                         }
                         break;
                     case "view bands":
+                        Console.WriteLine("What would you like to view? All bands, signed bands, or unsigned bands");
+                        string viewBandsChoice = Console.ReadLine().ToLower();
+
+                        switch (viewBandsChoice)
+                        {
+                            case "all bands":
+                                foreach (Band band in context.Bands)
+                                {
+                                    Console.WriteLine(band.Name);
+                                }
+                                break;
+                            case "signed bands":
+                                foreach (Band band in context.Bands)
+                                {
+                                    if (band.IsSigned == true)
+                                        Console.WriteLine(band.Name);
+                                }
+                                break;
+                            case "unsigned bands":
+                                foreach (Band band in context.Bands)
+                                {
+                                    if (band.IsSigned == false)
+                                        Console.WriteLine(band.Name);
+                                }
+                                break;
+                        }
                         break;
                     case "update albums":
                         break;
