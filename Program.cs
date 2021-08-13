@@ -136,6 +136,7 @@ namespace RhythmsGonnaGetYou
                     case "update albums":
                         Console.WriteLine("Enter the name of the band you would like to add an album for.");
                         string bandNameToAddAlbum = Console.ReadLine().ToLower();
+
                         int bandId;
                         Band bandToAddAlbum = context.Bands.FirstOrDefault(band => band.Name.ToLower() == bandNameToAddAlbum);
                         if (bandToAddAlbum != null)
@@ -149,7 +150,7 @@ namespace RhythmsGonnaGetYou
                         }
 
                         Console.Write("Title: ");
-                        string albumTitle = Console.ReadLine().ToLower();
+                        string albumTitle = Console.ReadLine();
                         Console.Write("Explicit (Y/N): ");
                         string explicitStatus = Console.ReadLine().ToLower();
                         bool isExplicit;
@@ -201,9 +202,40 @@ namespace RhythmsGonnaGetYou
                                 }
                                 break;
                         }
-
                         break;
                     case "add song":
+                        Console.WriteLine("Enter the name of the album you would like to add a song to.");
+                        string addSongToAlbumName = Console.ReadLine().ToLower();
+
+                        int albumId;
+                        Album albumToAddSong = context.Albums.FirstOrDefault(album => album.Title.ToLower() == addSongToAlbumName);
+                        if (albumToAddSong != null)
+                        {
+                            albumId = albumToAddSong.Id;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Song does not exist.");
+                            break;
+                        }
+
+                        Console.Write("Track number: ");
+                        int trackNumber = int.Parse(Console.ReadLine());
+                        Console.Write("Title: ");
+                        string songTitle = Console.ReadLine();
+                        Console.Write("Duration in seconds: ");
+                        int songduration = int.Parse(Console.ReadLine());
+
+                        Song songToAdd = new Song()
+                        {
+                            TrackNumber = trackNumber,
+                            Title = songTitle,
+                            Duration = songduration,
+                            AlbumId = albumId
+                        };
+                        context.Songs.Add(songToAdd);
+                        context.SaveChanges();
+
                         break;
                     default:
                         Console.WriteLine("Only enter the given options spelled correctly.");
