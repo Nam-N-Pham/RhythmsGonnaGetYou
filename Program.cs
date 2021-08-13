@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace RhythmsGonnaGetYou
 {
@@ -176,11 +177,31 @@ namespace RhythmsGonnaGetYou
 
                         break;
                     case "view albums":
-                        var orderedByReleaseDateAlbums = context.Albums.OrderBy(album => album.ReleaseDate);
-                        foreach (Album album in orderedByReleaseDateAlbums)
+                        Console.WriteLine("What would you like to view? All albums or band albums?");
+                        string viewAlbumsChoice = Console.ReadLine().ToLower();
+
+                        switch (viewAlbumsChoice)
                         {
-                            Console.WriteLine(album.Title);
+                            case "all albums":
+                                var orderedByReleaseDateAlbums = context.Albums.OrderBy(album => album.ReleaseDate);
+                                foreach (Album album in orderedByReleaseDateAlbums)
+                                {
+                                    Console.WriteLine(album.Title);
+                                }
+                                break;
+                            case "band albums":
+                                Console.WriteLine("What band would you like to see albums of?");
+                                string viewAlbumByBandName = Console.ReadLine().ToLower();
+
+                                var albumsWithBands = context.Albums.Include(album => album.Band);
+                                foreach (Album album in albumsWithBands)
+                                {
+                                    if (album.Band.Name.ToLower() == viewAlbumByBandName)
+                                        Console.WriteLine(album.Title);
+                                }
+                                break;
                         }
+
                         break;
                     case "add song":
                         break;
