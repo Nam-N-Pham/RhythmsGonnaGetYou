@@ -10,6 +10,6 @@ namespace RhythmsGonnaGetYou
         public string Style { get; set; }
         public bool IsSigned { get; set; }
         public string ContactName { get; set; }
-        public int ContactPhoneNumber { get; set; }
+        public string ContactPhoneNumber { get; set; }
     }
 }
