@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace RhythmsGonnaGetYou
 {
@@ -70,8 +71,19 @@ namespace RhythmsGonnaGetYou
                                 context.SaveChanges();
                                 break;
                             case "sign":
+
                                 break;
                             case "unsign":
+                                Console.WriteLine("What band would you like to unsign?");
+                                string unsignName = Console.ReadLine().ToLower();
+
+                                var existingBand = context.Bands.FirstOrDefault(band => band.Name.ToLower() == unsignName);
+                                if (existingBand != null)
+                                {
+                                    existingBand.IsSigned = false;
+                                    context.SaveChanges();
+                                }
+
                                 break;
                         }
                         break;
